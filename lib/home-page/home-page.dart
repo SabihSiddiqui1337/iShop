@@ -1,8 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:iShop/account/account.dart';
 import 'package:iShop/bottom-navigation-bar/bottom-navigation-bar.dart';
+import 'package:iShop/chat/chat.dart';
 import 'package:iShop/home-screen/home-screen.dart';
+import 'package:iShop/inbox/inbox.dart';
+import 'package:iShop/offers/offers.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _tabSelected = 1;
+
+  Widget _getTab(int tabIndex) {
+    final tabs = [
+      HomeScreen(),
+      Chat(),
+      Inbox(),
+      Offers(),
+      Account(),
+    ];
+    return tabs[tabIndex];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +66,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: HomeScreen(),
-      bottomNavigationBar: BottomNaviBar(),
+      body: _getTab(_tabSelected),
+      bottomNavigationBar: BottomNaviBar(
+        selectedIndex: _tabSelected,
+        onTabSelected: (index) => setState(
+          () {
+            _tabSelected = index;
+          },
+        ),
+      ),
     );
   }
 }
